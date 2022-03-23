@@ -31,11 +31,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Brand-Regular',
       ),
-      // home: const RegisterScreen(),
-      initialRoute: RegisterScreen.routeName,
+      initialRoute: LoginScreen.routeName,
       routes: {
-        RegisterScreen.routeName: (_) => const RegisterScreen(),
-        LoginScreen.routeName: (_) => const LoginScreen(),
+        RegisterScreen.routeName: (_) => RegisterScreen(),
+        LoginScreen.routeName: (_) => LoginScreen(),
         MainPage.routeName: (_) => const MainPage(),
       },
     );
