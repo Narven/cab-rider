@@ -1,4 +1,6 @@
 import 'package:cab_rider/screens/login/login_screen.dart';
+import 'package:cab_rider/screens/mainpage.dart';
+import 'package:cab_rider/screens/register/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +31,13 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Brand-Regular',
       ),
-      home: const LoginScreen(),
+      // home: const RegisterScreen(),
+      initialRoute: RegisterScreen.routeName,
+      routes: {
+        RegisterScreen.routeName: (_) => const RegisterScreen(),
+        LoginScreen.routeName: (_) => const LoginScreen(),
+        MainPage.routeName: (_) => const MainPage(),
+      },
     );
   }
 }

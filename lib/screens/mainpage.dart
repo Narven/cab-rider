@@ -2,6 +2,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 class MainPage extends StatefulWidget {
+  static const String routeName = '/mainpage';
   const MainPage({Key? key}) : super(key: key);
 
   @override

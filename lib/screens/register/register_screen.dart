@@ -1,12 +1,12 @@
 import 'package:cab_rider/brand_colors.dart';
-import 'package:cab_rider/screens/register/register_screen.dart';
+import 'package:cab_rider/screens/login/login_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../components/taxi_button.dart';
 
-class LoginScreen extends StatelessWidget {
-  static const String routeName = '/login';
-  const LoginScreen({Key? key}) : super(key: key);
+class RegisterScreen extends StatelessWidget {
+  static const String routeName = '/register';
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +39,31 @@ class LoginScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       const TextField(
+                        keyboardType: TextInputType.text,
+                        decoration: InputDecoration(
+                          labelText: 'Full Name',
+                          labelStyle: TextStyle(fontSize: 14),
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const TextField(
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           labelText: 'Email Address',
+                          labelStyle: TextStyle(fontSize: 14),
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      const TextField(
+                        keyboardType: TextInputType.phone,
+                        decoration: InputDecoration(
+                          labelText: 'Phone Number',
                           labelStyle: TextStyle(fontSize: 14),
                           hintStyle: TextStyle(
                             color: Colors.grey,
@@ -61,17 +83,17 @@ class LoginScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       TaxiButton(
-                        title: 'LOGIN',
+                        title: 'REGISTER',
                         onPressed: () {},
                         color: BrandColors.colorGreen,
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              RegisterScreen.routeName, (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, LoginScreen.routeName, (route) => false);
                         },
                         child: const Text(
-                          'Dont\'t have an account, sign up here.',
+                          'Already have a RIDER account? Login.',
                           style: TextStyle(color: Colors.black87),
                         ),
                       )
@@ -84,5 +106,6 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+    ;
   }
 }
