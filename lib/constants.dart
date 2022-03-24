@@ -34,6 +34,6 @@ void showSnackBar(BuildContext context, String message) {
       scaffoldMessenger.showSnackBar(snackbar);
 }
 
-String mapKey = 'AIzaSyCB-u6_5tGdyz9C9HGm6ekeRBOrnbutrGs';
+String mapKey = '';
 
 const kDrawerItemStyle = TextStyle(fontSize: 16);
