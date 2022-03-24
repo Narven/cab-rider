@@ -27,10 +27,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for macos - '
@@ -50,5 +47,16 @@ class DefaultFirebaseOptions {
     projectId: 'cabrider-258bd',
     databaseURL: 'https://cabrider-258bd-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'cabrider-258bd.appspot.com',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyCB-u6_5tGdyz9C9HGm6ekeRBOrnbutrGs',
+    appId: '1:40904701048:ios:e7db6e000d4b26edf7298d',
+    messagingSenderId: '40904701048',
+    projectId: 'cabrider-258bd',
+    databaseURL: 'https://cabrider-258bd-default-rtdb.europe-west1.firebasedatabase.app',
+    storageBucket: 'cabrider-258bd.appspot.com',
+    iosClientId: '40904701048-9i9c25dubt9qtj02d1s1hp0kqbqdlkhu.apps.googleusercontent.com',
+    iosBundleId: 'com.pedromsluz.cabrider',
   );
 }

@@ -22,6 +22,8 @@ class RegisterScreen extends StatelessWidget {
 
   Future<void> registerUser(BuildContext context) async {
     try {
+      showLoadingMessage(context, 'Registering you in...');
+
       final request = await _auth.createUserWithEmailAndPassword(
         email: emailController.text,
         password: passwordController.text,
@@ -38,10 +40,13 @@ class RegisterScreen extends StatelessWidget {
 
         newUserRef.set(userMap);
 
+        Navigator.pop(context);
+
         Navigator.pushNamedAndRemoveUntil(
             context, MainPage.routeName, (route) => false);
       }
     } on PlatformException catch (e) {
+      Navigator.pop(context);
       showSnackBar(context, e.message.toString());
     }
   }

@@ -1,5 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'components/progress_dialog.dart';
+
+Future<dynamic> showLoadingMessage(BuildContext context, String status) {
+  return showDialog(
+    barrierDismissible: false,
+    context: context,
+    builder: (BuildContext context) => ProgressDialog(status: status),
+  );
+}
+
 InputDecoration inputDecoration(String labelText) {
   return InputDecoration(
     labelText: labelText,
@@ -23,3 +33,7 @@ void showSnackBar(BuildContext context, String message) {
   ScaffoldFeatureController controller =
       scaffoldMessenger.showSnackBar(snackbar);
 }
+
+String mapKey = 'AIzaSyCB-u6_5tGdyz9C9HGm6ekeRBOrnbutrGs';
+
+const kDrawerItemStyle = TextStyle(fontSize: 16);
