@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../cubics/predictions/prediction_cubit.dart';
+import '../cubics/search/search_cubit.dart';
 import '../search_list_item.dart';
 
 class SearchList extends StatelessWidget {
@@ -13,30 +13,29 @@ class SearchList extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            child: BlocBuilder<PredictionCubit, PredictionState>(
+            child: BlocBuilder<SearchCubit, SearchState>(
               builder: (context, state) {
-                if (state is PredictionInitial) {
-                  return const Text('Please enter a destination');
+                switch (state.status) {
+                  case SearchStatus.initial:
+                    return const Text('Please enter a destination');
+                  case SearchStatus.loading:
+                    return const Center(child: CircularProgressIndicator());
+                  case SearchStatus.pickupSuccess:
+                    return ListView.builder(
+                      itemCount: state.predictions!.length,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (_, i) => SearchListItem(
+                        id: state.predictions![i].placeId,
+                        title: state.predictions![i].mainText,
+                        subtitle: state.predictions![i].secondaryText,
+                      ),
+                    );
+                  case SearchStatus.failure:
+                    return Text(state.exception.toString());
+                  case SearchStatus.destinationSuccess:
+                    return const Text('...');
                 }
-                if (state is PredictionSuccess) {
-                  return ListView.builder(
-                    itemCount: state.predictions.length,
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemBuilder: (_, i) => SearchListItem(
-                      id: state.predictions[i].placeId,
-                      title: state.predictions[i].mainText,
-                      subtitle: state.predictions[i].secondaryText,
-                    ),
-                  );
-                }
-                if (state is PredictionLoading) {
-                  return const Center(child: CircularProgressIndicator());
-                }
-                if (state is PredictionError) {
-                  return Text(state.message);
-                }
-                return const Text('...');
               },
             ),
           ),

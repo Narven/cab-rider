@@ -33,13 +33,13 @@ Future<void> main() async {
             logger: _logger,
           ),
         ),
-        BlocProvider(create: (_) => PredictionCubit(_searchHelper)),
-        BlocProvider(
-          create: (_) => DirectionCubit(
-            searchRepository: _searchHelper,
-            logger: _logger,
-          ),
-        ),
+        // BlocProvider(create: (_) => PredictionCubit(_searchHelper)),
+        // BlocProvider(
+        //   create: (_) => DirectionCubit(
+        //     searchRepository: _searchHelper,
+        //     logger: _logger,
+        //   ),
+        // ),
       ],
       child: const MyApp(),
     ),

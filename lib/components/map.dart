@@ -50,7 +50,7 @@ class _MapState extends State<Map> {
             return const Center(child: Text('...'));
           case SearchStatus.loading:
             return const Center(child: CircularProgressIndicator());
-          case SearchStatus.success:
+          case SearchStatus.pickupSuccess:
             return GoogleMap(
               padding: EdgeInsets.only(bottom: mapBottomPadding),
               myLocationEnabled: true,
@@ -68,6 +68,8 @@ class _MapState extends State<Map> {
             );
           case SearchStatus.failure:
             return Center(child: Text(state.exception.toString()));
+          case SearchStatus.destinationSuccess:
+            return const Center(child: Text('...'));
         }
       },
     );

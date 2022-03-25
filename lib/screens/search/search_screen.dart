@@ -5,7 +5,6 @@ import '../../brand_colors.dart';
 import '../../components/progress_dialog.dart';
 import '../../components/search_list.dart';
 import '../../constants.dart';
-import '../../cubics/predictions/prediction_cubit.dart';
 import '../../cubics/search/search_cubit.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -46,7 +45,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     const ProgressDialog(status: 'Please wait...'),
               );
               break;
-            case SearchStatus.success:
+            case SearchStatus.pickupSuccess:
               Navigator.pop(context);
               break;
             case SearchStatus.failure:
@@ -118,7 +117,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       return const Center(
                                         child: CircularProgressIndicator(),
                                       );
-                                    case SearchStatus.success:
+                                    case SearchStatus.pickupSuccess:
                                       pickupController.text =
                                           state.pickupAddress!.placeName;
 
@@ -140,6 +139,10 @@ class _SearchScreenState extends State<SearchScreen> {
                                     case SearchStatus.failure:
                                       return Center(
                                         child: Text(state.exception.toString()),
+                                      );
+                                    case SearchStatus.destinationSuccess:
+                                      return const Center(
+                                        child: Text('...'),
                                       );
                                   }
                                 },
@@ -169,8 +172,8 @@ class _SearchScreenState extends State<SearchScreen> {
                               child: TextField(
                                 onChanged: (value) {
                                   context
-                                      .read<PredictionCubit>()
-                                      .searchPlace(value);
+                                      .read<SearchCubit>()
+                                      .fetchByLocationName(value);
                                 },
                                 controller: destinationController,
                                 focusNode: focusDestination,

@@ -6,7 +6,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../brand_colors.dart';
 import '../constants.dart';
-import '../cubics/directions/direction_cubit.dart';
+// import '../cubics/directions/direction_cubit.dart';
+import '../cubics/search/search_cubit.dart';
 import '../screens/search/search_screen.dart';
 import 'brand_divider.dart';
 
@@ -17,7 +18,7 @@ class SearchPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final directionBloc = BlocProvider.of<DirectionCubit>(context);
+    final searchBloc = BlocProvider.of<SearchCubit>(context);
     return Container(
       height: searchSheetHeight,
       decoration: const BoxDecoration(
@@ -53,10 +54,7 @@ class SearchPanel extends StatelessWidget {
                 );
 
                 if (result == 'getDirection') {
-                  await directionBloc.getDirection(
-                    const LatLng(0.1, 0.0),
-                    const LatLng(0.0, 1.0),
-                  );
+                  await searchBloc.getDirections();
                 }
               },
               child: Container(

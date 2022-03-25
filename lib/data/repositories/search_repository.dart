@@ -14,8 +14,8 @@ abstract class SearchRepository {
   Future<AddressModel> getAddressByPlaceId(String placeId);
   Future<List<PredictionModel>> fetchByLocationName(String locationName);
   Future<DirectionDetailsModel> fetchDirectionDetails({
-    required LatLng startPosition,
-    required LatLng endPosition,
+    required LatLng start,
+    required LatLng end,
   });
 }
 
@@ -116,8 +116,8 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<DirectionDetailsModel> fetchDirectionDetails({
-    required LatLng startPosition,
-    required LatLng endPosition,
+    required LatLng start,
+    required LatLng end,
   }) async {
     try {
       final uri = Uri(
@@ -125,8 +125,8 @@ class SearchRepositoryImpl implements SearchRepository {
         host: 'maps.googleapis.com',
         path: 'maps/api/directions/json',
         queryParameters: {
-          'origin': '${startPosition.latitude},${startPosition.longitude}',
-          'destination': '${endPosition.latitude},${endPosition.longitude}',
+          'origin': '${start.latitude},${start.longitude}',
+          'destination': '${end.latitude},${end.longitude}',
           'mode': 'driving',
           'key': dotenv.env['MAP_KEY'],
         },
