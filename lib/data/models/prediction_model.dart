@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 class PredictionModel {
   PredictionModel({
     required this.placeId,

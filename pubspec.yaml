@@ -1,5 +1,5 @@
 name: cab_rider
-description: Cab Rider Mobile App, from Udemy Course
+description: Cab Rider Mobile App, Uber clone from Udemy Course
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 

@@ -3,6 +3,7 @@ import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:logger/logger.dart';
 
 import 'app.dart';
 import 'cubics/directions/direction_cubit.dart';
@@ -20,16 +21,25 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  final _searchHelper = SearchRepositoryImpl();
+  final _logger = Logger();
+  final _searchHelper = SearchRepositoryImpl(logger: _logger);
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => SearchCubit(searchRepository: _searchHelper),
+          create: (_) => SearchCubit(
+            searchRepository: _searchHelper,
+            logger: _logger,
+          ),
         ),
         BlocProvider(create: (_) => PredictionCubit(_searchHelper)),
-        BlocProvider(create: (_) => DirectionCubit(_searchHelper)),
+        BlocProvider(
+          create: (_) => DirectionCubit(
+            searchRepository: _searchHelper,
+            logger: _logger,
+          ),
+        ),
       ],
       child: const MyApp(),
     ),

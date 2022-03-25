@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:logger/logger.dart';
 
 import '../../data/models/address_model.dart';
 import '../../data/models/prediction_model.dart';
@@ -9,9 +10,13 @@ import '../../data/repositories/search_repository.dart';
 part 'search_state.dart';
 
 class SearchCubit extends Cubit<SearchState> {
-  SearchCubit({required this.searchRepository}) : super(const SearchState());
+  SearchCubit({
+    required this.searchRepository,
+    required this.logger,
+  }) : super(const SearchState());
 
   final SearchRepository searchRepository;
+  final Logger logger;
 
   Future<void> searchPickupAddress(Position position) async {
     emit(state.copyWith(status: SearchStatus.loading));
@@ -19,7 +24,7 @@ class SearchCubit extends Cubit<SearchState> {
     try {
       final address = await searchRepository.getAddress(position);
 
-      print(address);
+      logger.d(address);
 
       emit(
         state.copyWith(

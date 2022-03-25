@@ -3,20 +3,20 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-import '../components/custom_drawer.dart';
-import '../components/map.dart';
-import '../components/search_panel.dart';
-import '../components/toggle_drawer.dart';
+import '../../components/custom_drawer.dart';
+import '../../components/map.dart';
+import '../../components/search_panel.dart';
+import '../../components/toggle_drawer.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
   static const String routeName = '/mainpage';
 
   @override
-  State<MainPage> createState() => _MainPageState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _HomeScreenState extends State<HomeScreen> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   final geoLocator = Geolocator();
 
@@ -37,6 +37,7 @@ class _MainPageState extends State<MainPage> {
 
     if (permission == LocationPermission.deniedForever) {
       return Future.error(
+        // ignore: lines_longer_than_80_chars
         'Location permissions are permanently denied, we cannot request permissions.',
       );
     }
@@ -68,7 +69,7 @@ class _MainPageState extends State<MainPage> {
       drawer: const CustomDrawer(),
       body: Stack(
         children: [
-          Map(),
+          const Map(),
           Positioned(
             top: 44,
             left: 20,

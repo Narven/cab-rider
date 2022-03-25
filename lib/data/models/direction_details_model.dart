@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:equatable/equatable.dart';
 
 class DirectionDetailsModel extends Equatable {

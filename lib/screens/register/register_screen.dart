@@ -1,28 +1,29 @@
-import 'package:cab_rider/brand_colors.dart';
-import 'package:cab_rider/screens/login/login_screen.dart';
-import 'package:cab_rider/screens/mainpage.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../brand_colors.dart';
 import '../../components/taxi_button.dart';
 import '../../constants.dart';
+import '../home/home_screen.dart';
+import '../login/login_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
-  static const String routeName = '/register';
   RegisterScreen({Key? key}) : super(key: key);
 
-  var fullNameController = TextEditingController();
-  var phoneController = TextEditingController();
-  var emailController = TextEditingController();
-  var passwordController = TextEditingController();
+  static const String routeName = '/register';
+
+  final fullNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> registerUser(BuildContext context) async {
     try {
-      showLoadingMessage(context, 'Registering you in...');
+      await showLoadingMessage(context, 'Registering you in...');
 
       final request = await _auth.createUserWithEmailAndPassword(
         email: emailController.text,
@@ -30,20 +31,23 @@ class RegisterScreen extends StatelessWidget {
       );
 
       if (request.user != null) {
-        DatabaseReference newUserRef =
+        final newUserRef =
             FirebaseDatabase.instance.ref().child('users/${request.user!.uid}');
-        Map userMap = {
+        final userMap = {
           'fullname': fullNameController.text,
           'email': emailController.text,
           'phone': phoneController.text,
         };
 
-        newUserRef.set(userMap);
+        await newUserRef.set(userMap);
 
         Navigator.pop(context);
 
         Navigator.pushNamedAndRemoveUntil(
-            context, MainPage.routeName, (route) => false);
+          context,
+          HomeScreen.routeName,
+          (route) => false,
+        );
       }
     } on PlatformException catch (e) {
       Navigator.pop(context);
@@ -53,7 +57,7 @@ class RegisterScreen extends StatelessWidget {
 
   void onPressed(BuildContext context) async {
     // check for connectivity
-    var connectivityResult = await (Connectivity().checkConnectivity());
+    final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult != ConnectivityResult.mobile &&
         connectivityResult != ConnectivityResult.wifi) {
       showSnackBar(context, 'No internet connectivity');
@@ -80,7 +84,7 @@ class RegisterScreen extends StatelessWidget {
       return;
     }
 
-    registerUser(context);
+    await registerUser(context);
   }
 
   @override
@@ -96,7 +100,6 @@ class RegisterScreen extends StatelessWidget {
                 const SizedBox(height: 70),
                 const Image(
                   image: AssetImage('assets/images/logo.png'),
-                  alignment: Alignment.center,
                   height: 100,
                   width: 100,
                 ),
@@ -145,7 +148,10 @@ class RegisterScreen extends StatelessWidget {
                       TextButton(
                         onPressed: () {
                           Navigator.pushNamedAndRemoveUntil(
-                              context, LoginScreen.routeName, (route) => false);
+                            context,
+                            LoginScreen.routeName,
+                            (route) => false,
+                          );
                         },
                         child: const Text(
                           'Already have a RIDER account? Login.',
@@ -161,6 +167,5 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
     );
-    ;
   }
 }

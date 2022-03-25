@@ -1,7 +1,8 @@
-import 'package:cab_rider/screens/login/login_screen.dart';
-import 'package:cab_rider/screens/mainpage.dart';
-import 'package:cab_rider/screens/register/register_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'screens/home/home_screen.dart';
+import 'screens/login/login_screen.dart';
+import 'screens/register/register_screen.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,11 +16,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Brand-Regular',
       ),
-      initialRoute: MainPage.routeName,
+      initialRoute: HomeScreen.routeName,
       routes: {
         RegisterScreen.routeName: (_) => RegisterScreen(),
         LoginScreen.routeName: (_) => LoginScreen(),
-        MainPage.routeName: (_) => const MainPage(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
       },
     );
   }

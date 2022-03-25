@@ -7,12 +7,13 @@ import 'package:flutter/services.dart';
 import '../../brand_colors.dart';
 import '../../components/taxi_button.dart';
 import '../../constants.dart';
-import '../mainpage.dart';
+import '../home/home_screen.dart';
 import '../register/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
-  static const String routeName = '/login';
   LoginScreen({Key? key}) : super(key: key);
+
+  static const String routeName = '/login';
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
@@ -35,7 +36,10 @@ class LoginScreen extends StatelessWidget {
         if (once.snapshot.value != null) {
           Navigator.pop(context);
           Navigator.pushNamedAndRemoveUntil(
-              context, MainPage.routeName, (route) => false);
+            context,
+            HomeScreen.routeName,
+            (route) => false,
+          );
         }
       }
     } on PlatformException catch (e) {
@@ -46,7 +50,7 @@ class LoginScreen extends StatelessWidget {
 
   Future<void> onPressed(BuildContext context) async {
     // check for connectivity
-    var connectivityResult = await (Connectivity().checkConnectivity());
+    final connectivityResult = await Connectivity().checkConnectivity();
     if (connectivityResult != ConnectivityResult.mobile &&
         connectivityResult != ConnectivityResult.wifi) {
       showSnackBar(context, 'No internet connectivity');
@@ -63,7 +67,7 @@ class LoginScreen extends StatelessWidget {
       return;
     }
 
-    loginUser(context);
+    await loginUser(context);
   }
 
   @override
@@ -79,7 +83,6 @@ class LoginScreen extends StatelessWidget {
                 const SizedBox(height: 70),
                 const Image(
                   image: AssetImage('assets/images/logo.png'),
-                  alignment: Alignment.center,
                   height: 100,
                   width: 100,
                 ),
@@ -115,11 +118,14 @@ class LoginScreen extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamedAndRemoveUntil(context,
-                              RegisterScreen.routeName, (route) => false);
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            RegisterScreen.routeName,
+                            (route) => false,
+                          );
                         },
                         child: const Text(
-                          'Dont\'t have an account, sign up here.',
+                          "Dont't have an account, sign up here.",
                           style: TextStyle(color: Colors.black87),
                         ),
                       )

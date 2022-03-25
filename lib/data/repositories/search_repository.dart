@@ -2,6 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:logger/logger.dart';
 
 import '../../helpers/request_helper.dart';
 import '../models/address_model.dart';
@@ -19,6 +20,10 @@ abstract class SearchRepository {
 }
 
 class SearchRepositoryImpl implements SearchRepository {
+  const SearchRepositoryImpl({required this.logger});
+
+  final Logger logger;
+
   @override
   Future<AddressModel> getAddress(Position position) async {
     final connectivityResult = await Connectivity().checkConnectivity();
@@ -45,6 +50,7 @@ class SearchRepositoryImpl implements SearchRepository {
     }
 
     final address =
+        // ignore: avoid_dynamic_calls
         AddressModel.fromJson(response['results'][0] as Map<String, dynamic>);
 
     return Future.value(address);
@@ -56,15 +62,16 @@ class SearchRepositoryImpl implements SearchRepository {
   ) async {
     // https:///maps/api/place/autocomplete/json?input=Time Square&key=YOUR API KEY&sessiontoken=123254251&components=country:us
     final uri = Uri(
-        scheme: 'https',
-        host: 'maps.googleapis.com',
-        path: 'maps/api/place/autocomplete/json',
-        queryParameters: {
-          'input': locationName,
-          'key': dotenv.env['MAP_KEY'],
-          'sessiontoken': '123254251',
-          'components': 'country:us',
-        });
+      scheme: 'https',
+      host: 'maps.googleapis.com',
+      path: 'maps/api/place/autocomplete/json',
+      queryParameters: {
+        'input': locationName,
+        'key': dotenv.env['MAP_KEY'],
+        'sessiontoken': '123254251',
+        'components': 'country:us',
+      },
+    );
 
     final response = await RequestHelper().getRequest(uri);
 
@@ -72,6 +79,7 @@ class SearchRepositoryImpl implements SearchRepository {
       return Future.error('Something went wrong');
     }
 
+    // ignore: avoid_dynamic_calls
     final predictions = (response['predictions'] as List)
         .map((e) => e as Map<String, dynamic>)
         .toList()
@@ -83,7 +91,6 @@ class SearchRepositoryImpl implements SearchRepository {
 
   @override
   Future<AddressModel> getAddressByPlaceId(String placeId) async {
-    // https: //maps.googleapis.com/maps/api/place/details/json?placeid={place_id}&key=YOUR API KEY
     final uri = Uri(
       scheme: 'https',
       host: 'maps.googleapis.com',
@@ -101,6 +108,7 @@ class SearchRepositoryImpl implements SearchRepository {
     }
 
     final placeDetails =
+        // ignore: avoid_dynamic_calls
         AddressModel.fromJson(response['result'] as Map<String, dynamic>);
 
     return Future.value(placeDetails);
@@ -111,8 +119,6 @@ class SearchRepositoryImpl implements SearchRepository {
     required LatLng startPosition,
     required LatLng endPosition,
   }) async {
-    // https://maps.googleapis.com/maps/api/directions/json?origin={latitude},{longitude}&destination={latitude},{longitude}&mode=driving&key={your_api_key}
-
     try {
       final uri = Uri(
         scheme: 'https',
@@ -128,14 +134,15 @@ class SearchRepositoryImpl implements SearchRepository {
 
       final response = await RequestHelper().getRequest(uri);
 
-      print(response);
+      logger.d(response);
       // {geocoded_waypoints: [{}, {}], routes: [], status: ZERO_RESULTS}
 
       final direction = DirectionDetailsModel.fromJson(
+        // ignore: avoid_dynamic_calls
         response['routes'] as Map<String, dynamic>,
       );
 
-      print(direction.encodePoints);
+      logger.d(direction.encodePoints);
 
       return Future.value(direction);
     } catch (e) {

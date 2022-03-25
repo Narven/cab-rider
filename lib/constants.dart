@@ -21,7 +21,7 @@ InputDecoration inputDecoration(String labelText) {
 }
 
 void showSnackBar(BuildContext context, String message) {
-  ScaffoldMessengerState scaffoldMessenger = ScaffoldMessenger.of(context);
+  final scaffoldMessenger = ScaffoldMessenger.of(context);
   final snackbar = SnackBar(
     content: Text(
       message,
@@ -30,8 +30,7 @@ void showSnackBar(BuildContext context, String message) {
     ),
   );
 
-  ScaffoldFeatureController controller =
-      scaffoldMessenger.showSnackBar(snackbar);
+  final controller = scaffoldMessenger.showSnackBar(snackbar);
 }
 
 const kDrawerItemStyle = TextStyle(fontSize: 16);

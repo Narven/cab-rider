@@ -28,7 +28,7 @@ class _MapState extends State<Map> {
   late GoogleMapController mapController;
 
   Future<Position> getCurrentPosition() async {
-    return await Geolocator.getCurrentPosition(
+    return Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.bestForNavigation,
     );
   }

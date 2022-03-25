@@ -31,7 +31,9 @@ GET {{api_host}}/geocode/json?latlng={{latlng3}}&key={{$dotenv MAP_KEY}} HTTP/1.
 Content-Type: application/json
 
 
+// https://maps.googleapis.com/maps/api/directions/json?origin={latitude},{longitude}&destination={latitude},{longitude}&mode=driving&key={your_api_key}
 
+// https: //maps.googleapis.com/maps/api/place/details/json?placeid={place_id}&key=YOUR API KEY
 
 // https://maps.googleapis.com/maps/api/directions/json?origin={latitude},{longitude}&destination={latitude},{longitude}&mode=driving&key={your_api_key}
 
