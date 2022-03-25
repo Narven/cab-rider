@@ -1,42 +1,37 @@
-import 'package:cab_rider/screens/login/login_screen.dart';
-import 'package:cab_rider/screens/mainpage.dart';
-import 'package:cab_rider/screens/register/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
+import 'app.dart';
+import 'cubics/directions/direction_cubit.dart';
+import 'cubics/predictions/prediction_cubit.dart';
+import 'cubics/search/search_cubit.dart';
+import 'data/repositories/search_repository.dart';
 import 'firebase_options.dart';
 
 FirebaseDatabase database = FirebaseDatabase.instance;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  await dotenv.load();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(const MyApp());
-}
+  final _searchHelper = SearchRepositoryImpl();
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Brand-Regular',
-      ),
-      initialRoute: MainPage.routeName,
-      routes: {
-        RegisterScreen.routeName: (_) => RegisterScreen(),
-        LoginScreen.routeName: (_) => LoginScreen(),
-        MainPage.routeName: (_) => const MainPage(),
-      },
-    );
-  }
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => SearchCubit(searchRepository: _searchHelper),
+        ),
+        BlocProvider(create: (_) => PredictionCubit(_searchHelper)),
+        BlocProvider(create: (_) => DirectionCubit(_searchHelper)),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }

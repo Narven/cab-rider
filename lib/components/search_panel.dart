@@ -1,8 +1,13 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../brand_colors.dart';
+import '../constants.dart';
+import '../cubics/directions/direction_cubit.dart';
+import '../screens/search/search_screen.dart';
 import 'brand_divider.dart';
 
 class SearchPanel extends StatelessWidget {
@@ -12,6 +17,7 @@ class SearchPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final directionBloc = BlocProvider.of<DirectionCubit>(context);
     return Container(
       height: searchSheetHeight,
       decoration: const BoxDecoration(
@@ -20,13 +26,7 @@ class SearchPanel extends StatelessWidget {
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            blurRadius: 15.0,
-            spreadRadius: 0.5,
-          )
-        ],
+        boxShadow: [kBoxShadow],
       ),
       child: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -43,36 +43,46 @@ class SearchPanel extends StatelessWidget {
               style: TextStyle(fontSize: 18, fontFamily: 'Brand-Bold'),
             ),
             const SizedBox(height: 20),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(4),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 5.0,
-                    spreadRadius: 0.5,
-                    offset: Offset(0.7, 0.7),
-                  )
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  children: const [
-                    Icon(
-                      Icons.search,
-                      color: Colors.blueAccent,
-                    ),
-                    SizedBox(width: 10),
-                    Text(
-                      'Search Destination',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontFamily: 'Brand-Bold',
+            GestureDetector(
+              onTap: () async {
+                final result = await Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const SearchScreen(),
+                  ),
+                );
+
+                if (result == 'getDirection') {
+                  await directionBloc.getDirection(
+                    const LatLng(0.1, 0.0),
+                    const LatLng(0.0, 1.0),
+                  );
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                  boxShadow: const [kBoxShadow],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    children: const [
+                      Icon(
+                        Icons.search,
+                        color: Colors.blueAccent,
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 10),
+                      Text(
+                        'Search Destination',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontFamily: 'Brand-Bold',
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class ToggleDrawer extends StatelessWidget {
   const ToggleDrawer({Key? key, required this.onTap}) : super(key: key);
 
@@ -13,14 +15,7 @@ class ToggleDrawer extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: const [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 5.0,
-              spreadRadius: 0.5,
-              offset: Offset(0.7, 0.7),
-            )
-          ],
+          boxShadow: const [kBoxShadow],
         ),
         child: const CircleAvatar(
           backgroundColor: Colors.white,

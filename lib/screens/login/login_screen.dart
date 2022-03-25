@@ -1,14 +1,14 @@
-import 'package:cab_rider/brand_colors.dart';
-import 'package:cab_rider/screens/register/register_screen.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../brand_colors.dart';
 import '../../components/taxi_button.dart';
 import '../../constants.dart';
 import '../mainpage.dart';
+import '../register/register_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   static const String routeName = '/login';
@@ -20,7 +20,7 @@ class LoginScreen extends StatelessWidget {
 
   Future<void> loginUser(BuildContext context) async {
     try {
-      showLoadingMessage(context, 'Logging you in...');
+      await showLoadingMessage(context, 'Logging you in...');
 
       final request = await _auth.signInWithEmailAndPassword(
         email: emailController.text,
@@ -28,9 +28,9 @@ class LoginScreen extends StatelessWidget {
       );
 
       if (request.user != null) {
-        DatabaseReference userRef =
+        final userRef =
             FirebaseDatabase.instance.ref().child('users/${request.user!.uid}');
-        var once = await userRef.once();
+        final once = await userRef.once();
 
         if (once.snapshot.value != null) {
           Navigator.pop(context);

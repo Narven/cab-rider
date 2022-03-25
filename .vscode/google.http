@@ -1,0 +1,39 @@
+@latlng1 = 51.440197954555956,-0.37698806028831805
+@latlng2 = 51.44600911572344, -0.4115512953076033
+@api_host = https://maps.googleapis.com/maps/api
+
+###
+
+@place_id = zxzyiuxdyudy
+GET {{api_host}}/place/details/json?placeid={{place_id}}&key={{$dotenv MAP_KEY}} HTTP/1.1
+
+###
+
+GET {{api_host}}/directions/json?origin={{latlng1}}&destination={{latlng2}}&mode=driving&key={{$dotenv MAP_KEY}} HTTP/1.1
+Content-Type: application/json
+
+### SEARCH BY NAME (get predictions)
+
+@location = california
+GET {{api_host}}/place/autocomplete/json?input={{location}}&key={{$dotenv MAP_KEY}}&sessiontoken=123254251&components=country:us HTTP/1.1
+Content-Type: application/json
+
+### FEATCH BY Place ID (get address)
+
+@place_id = ChIJPV4oX_65j4ARVW8IJ6IJUYs
+GET {{api_host}}/place/details/json?placeid={{place_id}}&key={{$dotenv MAP_KEY}} HTTP/1.1
+Content-Type: application/json
+
+### FETCH BY COORDS
+
+@latlng3=40.714224,-73.961452
+GET {{api_host}}/geocode/json?latlng={{latlng3}}&key={{$dotenv MAP_KEY}} HTTP/1.1
+Content-Type: application/json
+
+
+
+
+// https://maps.googleapis.com/maps/api/directions/json?origin={latitude},{longitude}&destination={latitude},{longitude}&mode=driving&key={your_api_key}
+
+
+// https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=YOUR_API_KEY

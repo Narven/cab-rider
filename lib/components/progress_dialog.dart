@@ -1,5 +1,6 @@
-import 'package:cab_rider/brand_colors.dart';
 import 'package:flutter/material.dart';
+
+import '../brand_colors.dart';
 
 class ProgressDialog extends StatelessWidget {
   const ProgressDialog({Key? key, required this.status}) : super(key: key);

@@ -13,7 +13,7 @@ class CustomDrawer extends StatelessWidget {
       color: Colors.white,
       child: Drawer(
         child: ListView(
-          padding: const EdgeInsets.all(0),
+          padding: EdgeInsets.zero,
           children: [
             Container(
               color: Colors.white,
